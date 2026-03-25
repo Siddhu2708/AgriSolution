@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section id="diagnosis" class="section">
+    <h2><i class="fas fa-microscope"></i> {{ t['disease_diagnosis'] }}</h2>
+    <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">Upload a photo of a tomato leaf to get an instant AI-powered diagnosis and treatment plan.</p>
+    
+    <div class="diagnosis-container">
+        <div class="upload-options">
+            <label for="upload-input" class="upload-box">
+                <i class="fas fa-cloud-arrow-up"></i>
+                <p>{{ t['upload_prompt'] }}</p>
+                <input type="file" id="upload-input" accept="image/*" style="display: none;">
+            </label>
+            <button id="camera-btn" class="upload-box">
+                <i class="fas fa-camera"></i>
+                <p>{{ t['take_photo'] }}</p>
+            </button>
+        </div>
+        
+        <video id="camera-view" class="camera-preview"></video>
+        <canvas id="photo-canvas" style="display: none;"></canvas>
+        <img id="preview-img" class="preview-img" src="" alt="Preview">
+        
+        <button id="predict-btn" class="btn btn-primary diagnose-btn" style="width: 100%; max-width: 700px; font-size: 1.2rem; padding: 1.2rem;">{{ t['analyze_leaf'] }}</button>
+        
+        <div id="result-area" style="width: 100%; max-width: 700px;"></div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="section">
+    <h2><i class="fas fa-robot"></i> {{ t['planty_page_title'] }}</h2>
+    <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">{{ t['planty_desc'] }}</p>
+    
+    <div class="chat-container">
+        <div class="chat-window" id="chat-window">
+            <div class="chat-message bot-msg">
+                {{ t['planty_welcome'] }}
+            </div>
+        </div>
+        
+        <div class="chat-input-group">
+            <input type="text" id="chat-input" placeholder="{{ t['ask_prompt'] }}">
+            <button id="send-btn" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+            <button id="clear-btn" class="btn btn-secondary" onclick="clearChat()"><i class="fas fa-trash-can"></i></button>
+        </div>
+    </div>
+</section>
+
+<script>
+async function clearChat() {
+    if (!confirm(translations['confirm_clear'] || 'Are you sure you want to clear the conversation?')) return;
+    await fetch('/clear_chat', { method: 'POST' });
+    document.getElementById('chat-window').innerHTML = `
+        <div class="chat-message bot-msg">${translations['planty_welcome'] || 'Hello! I am Planty AI.'}</div>
+    `;
+}
+</script>
+{% endblock %}

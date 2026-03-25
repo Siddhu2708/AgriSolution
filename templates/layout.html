@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomato Leaf Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='image/agri_logo_v2.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-logo">
+            AgriSolution <img src="{{ url_for('static', filename='image/agrisolutionlogo.png') }}" alt="Logo"
+                class="brand-logo">
+        </a>
+        <ul class="nav-links">
+            <li><a href="/"><i class="fas fa-home"></i> {{ t['home'] }}</a></li>
+            <li><a href="/diagnose"><i class="fas fa-microscope"></i> {{ t['disease_diagnosis'] }}</a></li>
+            <li><a href="/planty"><i class="fas fa-brain"></i> {{ t['planty_ai'] }}</a></li>
+            <li><a href="/shop"><i class="fas fa-store"></i> {{ t['shop'] }}</a></li>
+            <li><a href="/contact"><i class="fas fa-paper-plane"></i> {{ t['contact'] }}</a></li>
+        </ul>
+        <div class="lang-selector">
+            <select id="lang-select">
+                <option value="en" {% if lang=='en' %}selected{% endif %}>English</option>
+                <option value="hi" {% if lang=='hi' %}selected{% endif %}>हिन्दी</option>
+                <option value="mr" {% if lang=='mr' %}selected{% endif %}>मराठी</option>
+            </select>
+        </div>
+    </nav>
+
+    {% block hero %}{% endblock %}
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content" style="padding: 2rem 1rem;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">AgriSolution</h2>
+            <p style="font-size: 0.9rem; opacity: 0.7;">{{ t['copyright'] }}</p>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {{ t | tojson | safe }};
+    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

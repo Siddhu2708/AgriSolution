@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="section">
+    <h2><i class="fas fa-envelope-open-text"></i> {{ t['contact-page'] }}</h2>
+    <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">{{ t['contact-description'] }}</p>
+    
+    <form id="contact-form" style="margin-top: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div style="grid-column: span 2;">
+                <label for="name" style="color: var(--primary-color); font-weight: 600; margin-bottom: 0.5rem; display: block;">{{ t['name'] }}</label>
+                <input type="text" id="name" name="name" required style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: var(--bg-surface); color: white; outline: none;">
+            </div>
+            <div>
+                <label for="email" style="color: var(--primary-color); font-weight: 600; margin-bottom: 0.5rem; display: block;">{{ t['email'] }}</label>
+                <input type="email" id="email" name="email" required style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: var(--bg-surface); color: white; outline: none;">
+            </div>
+            <div>
+                <label for="phone" style="color: var(--primary-color); font-weight: 600; margin-bottom: 0.5rem; display: block;">{{ t['phone'] }}</label>
+                <input type="text" id="phone" name="phone" required style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: var(--bg-surface); color: white; outline: none;">
+            </div>
+            <div style="grid-column: span 2;">
+                <label for="message" style="color: var(--primary-color); font-weight: 600; margin-bottom: 0.5rem; display: block;">{{ t['message'] }}</label>
+                <textarea id="message" name="message" required style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: var(--bg-surface); color: white; outline: none; height: 150px;"></textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 2rem; width: 100%; font-size: 1.1rem; padding: 1rem;">{{ t['send'] }}</button>
+    </form>
+</section>
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const btn = e.target.querySelector('button');
+    btn.disabled = true;
+    btn.innerText = translations['sending'] || 'Sending...';
+
+    try {
+        const response = await fetch('/send_contact', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        if (data.status === 'success') {
+            alert(translations['contact_success'] || 'Your message has been sent successfully!');
+            e.target.reset();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (err) {
+        alert(translations['error_occurred'] || 'An error occurred.');
+    } finally {
+        btn.disabled = false;
+        btn.innerText = '{{ t["send"] }}';
+    }
+});
+</script>
+{% endblock %}
